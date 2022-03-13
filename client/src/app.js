@@ -10,7 +10,7 @@ export default class App extends Component {
             first: "",
             last: "",
             email: "",
-            profilePic: "",
+            profilePic: undefined,
             uploaderVisible: false,
         };
     }
@@ -20,9 +20,12 @@ export default class App extends Component {
             .then((res) => res.json())
             .then((data) => {
                 //user Obj {first: george, last: barkley, ...}
+                console.log("profile info", data);
                 this.setState({
-                    first: "Oliver",
-                    last: "Twist",
+                    first: data.first,
+                    last: data.last,
+                    email: data.email,
+                    profilePic: data.profile_pic,
                 });
             })
             .catch((err) => console.log(err));
@@ -35,7 +38,9 @@ export default class App extends Component {
     }
 
     updateProfilePic(newProfilePic) {
-        //??
+        this.setState({
+            profilePic: newProfilePic,
+        });
     }
 
     render() {

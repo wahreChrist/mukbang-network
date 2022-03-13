@@ -53,3 +53,22 @@ module.exports.updatePass = (password) => {
         [password]
     );
 };
+
+module.exports.getUser = (userId) => {
+    return db.query(
+        `
+    SELECT * FROM users WHERE id = $1
+    `,
+        [userId]
+    );
+};
+
+module.exports.updatePic = (id, pic) => {
+    return db.query(
+        `
+        UPDATE users SET profile_pic = $2 WHERE id = $1
+        RETURNING profile_pic
+    `,
+        [id, pic]
+    );
+};

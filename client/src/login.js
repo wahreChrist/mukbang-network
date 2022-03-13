@@ -8,9 +8,6 @@ export default class Login extends Component {
             error: false,
         };
     }
-    componentDidMount() {
-        console.log("login component");
-    }
 
     handleChange(e) {
         this.setState({

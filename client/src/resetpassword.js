@@ -86,6 +86,7 @@ export default class ResetPassword extends Component {
                         type="text"
                         name="email"
                         onChange={(e) => this.handleChange(e)}
+                        key={1}
                     ></input>
                     <button onClick={(e) => this.reqCode(e)}>Submit</button>
                 </form>
@@ -102,11 +103,13 @@ export default class ResetPassword extends Component {
                         type="text"
                         name="code"
                         onChange={(e) => this.handleChange(e)}
+                        key={2}
                     ></input>
                     <input
                         type="text"
                         name="newPass"
                         onChange={(e) => this.handleChange(e)}
+                        key={3}
                     ></input>
                     <button onClick={(e) => this.sendCode(e)}>Submit</button>
                 </form>

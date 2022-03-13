@@ -7,6 +7,9 @@ const db = require("./db");
 const { compare, hash } = require("./bc");
 const ses = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
+const multer = require("multer");
+const uidSafe = require("uid-safe");
+const s3 = require("./s3");
 
 app.use(compression());
 
@@ -22,6 +25,40 @@ app.use(
     })
 );
 
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, path.join(__dirname, "uploads"));
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then((uid) => {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
+
+app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
+    console.log("file object:", req.file);
+    console.log("body object:", req.body);
+    db.updatePic(
+        req.session.sessId,
+        `https://s3.amazonaws.com/khorneworldeaters/${req.file.filename}`
+    )
+        .then(({ rows }) => {
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("error in uploading new profile pic", err);
+            res.json({ success: false });
+        });
+});
+
 app.get("/user/id.json", (req, res) => {
     if (req.session.sessId) {
         res.json({
@@ -34,9 +71,19 @@ app.get("/user/id.json", (req, res) => {
     }
 });
 
-// app.get('/user', (req, res) => {
-
-// })
+app.get("/user", (req, res) => {
+    db.getUser(req.session.sessId)
+        .then(({ rows }) => {
+            console.log("retreived data from db", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("error in retreiving a user data", err);
+            res.json({
+                success: false,
+            });
+        });
+});
 
 app.post("/user/register.json", (req, res) => {
     const { first, last, email, password } = req.body;
