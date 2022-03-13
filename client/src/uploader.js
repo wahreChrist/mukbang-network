@@ -7,42 +7,37 @@ export default class Uploader extends Component {
     }
     handleChange(e) {
         this.setState({
-            [e.target.name]: e.target.files[0],
+            file: e.target.files[0],
         });
     }
 
     handleSubmit(e) {
         e.preventDefault();
         const data = new FormData();
-        data.append("file", this.state.profilePic);
+        data.append("file", this.state.file);
         fetch("/profile-pic", {
             method: "POST",
             body: data,
         })
             .then((resp) => resp.json())
             .then(({ profile_pic }) => {
-                //update profile pic
                 this.props.updateProfilePic(profile_pic);
             })
             .catch((err) => {
                 console.log("error in updating a profile picture", err);
             });
-        //3 append file to it
-        //4 send data over o the server with fetch
-        //if its success, update a profile pic
     }
-
     render() {
         return (
             <>
                 <div onClick={this.props.hideUploader}>X</div>
-                <div>uploader</div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={(e) => this.handleSubmit(e)}>
                     <input
+                        accept="image/*"
                         type="file"
                         name="profilePic"
-                        onChange={this.handleChange}
-                    ></input>
+                        onChange={(e) => this.handleChange(e)}
+                    />
                     <button>Submit</button>
                 </form>
             </>

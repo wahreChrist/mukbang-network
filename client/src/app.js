@@ -19,8 +19,6 @@ export default class App extends Component {
         fetch("/user")
             .then((res) => res.json())
             .then((data) => {
-                //user Obj {first: george, last: barkley, ...}
-                console.log("profile info", data);
                 this.setState({
                     first: data.first,
                     last: data.last,
@@ -37,6 +35,12 @@ export default class App extends Component {
         });
     }
 
+    hideUploader() {
+        this.setState({
+            uploaderVisible: false,
+        });
+    }
+
     updateProfilePic(newProfilePic) {
         this.setState({
             profilePic: newProfilePic,
@@ -47,18 +51,31 @@ export default class App extends Component {
         return (
             <div id="app">
                 <Logo />
-                <ProfilePic
-                    url={this.state.profilePic}
-                    first={this.state.first}
-                    last={this.state.last}
-                    showUploader={() => this.showUploader()}
-                />
-                {this.state.uploaderVisible && (
-                    <Uploader
-                        hideUploader={() => this.showUploader()}
-                        updateProfilePic={() => this.updateProfilePic()}
-                    />
-                )}
+                <br />
+                <div className="dashboard">
+                    <div className="userInfo">
+                        <h4>
+                            Name: {this.state.first} {this.state.last}
+                        </h4>
+                        <p>E-mail: {this.state.email}</p>
+                    </div>
+                    <div className="uploadSection">
+                        <ProfilePic
+                            url={this.state.profilePic}
+                            first={this.state.first}
+                            last={this.state.last}
+                            showUploader={() => this.showUploader()}
+                        />
+                        {this.state.uploaderVisible && (
+                            <Uploader
+                                hideUploader={() => this.hideUploader()}
+                                updateProfilePic={(newProfilePic) =>
+                                    this.updateProfilePic(newProfilePic)
+                                }
+                            />
+                        )}
+                    </div>
+                </div>
             </div>
         );
     }

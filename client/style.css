@@ -38,3 +38,25 @@ main {
 .loginForm > * {
     margin-bottom: 0.5em;
 }
+
+#app {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard {
+    display: flex;
+    width: 800px;
+    border: 3px solid;
+    justify-content: space-between;
+}
+
+.userInfo {
+    padding: 1em;
+}
+
+.profilePic {
+    width: 250px;
+    object-fit: cover;
+    padding: 0.5em;
+}
