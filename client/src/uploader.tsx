@@ -1,17 +1,28 @@
 import { Component } from "react";
 
-export default class Uploader extends Component {
-    constructor(props) {
+type Props = {
+    hideUploader: () => void;
+    updateProfilePic: (profile_pic: string) => void;
+};
+
+type State = {
+    file: File | undefined;
+};
+
+export default class Uploader extends Component<Props, State> {
+    constructor(props: Props) {
         super(props); // hideUploader & updateProfilePic functions
-        this.state = {};
+        this.state = {
+            file: undefined,
+        };
     }
-    handleChange(e) {
+    handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
-            file: e.target.files[0],
+            file: e.currentTarget.files[0],
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
         const data = new FormData();
         data.append("file", this.state.file);

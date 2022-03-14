@@ -1,22 +1,30 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class ResetPassword extends Component {
-    constructor() {
-        super();
-        this.state = {
-            view: 1,
-            error: false,
-        };
-    }
+type State = {
+    view: number;
+    error: boolean;
+    email: string;
+    code: string;
+    newPass: string;
+};
 
-    handleChange(e) {
+export default class ResetPassword extends Component {
+    state: State = {
+        view: 1,
+        error: false,
+        email: "",
+        code: "",
+        newPass: "",
+    };
+
+    handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
             [e.target.name]: e.target.value,
         });
     }
 
-    reqCode(e) {
+    reqCode(e: React.SyntheticEvent) {
         e.preventDefault();
         fetch("/password/reset/start", {
             method: "POST",
@@ -42,7 +50,7 @@ export default class ResetPassword extends Component {
             });
     }
 
-    sendCode(e) {
+    sendCode(e: React.SyntheticEvent) {
         e.preventDefault();
         fetch("/password/reset/verify", {
             method: "POST",
@@ -69,11 +77,11 @@ export default class ResetPassword extends Component {
             });
     }
 
-    determiner() {
+    determiner(): JSX.Element {
         if (this.state.view == 1) {
             return (
                 <form>
-                    {this.error && (
+                    {this.state.error && (
                         <p style={{ color: "red" }}>
                             something went wrong, please try again
                         </p>
@@ -94,7 +102,7 @@ export default class ResetPassword extends Component {
         } else if (this.state.view == 2) {
             return (
                 <form>
-                    {this.error && (
+                    {this.state.error && (
                         <p style={{ color: "red" }}>
                             something went wrong, please try again
                         </p>

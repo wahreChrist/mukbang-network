@@ -1,27 +1,31 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
+type State = {
+    error: boolean;
+    first: string;
+    last: string;
+    email: string;
+    password: string;
+};
+
 export default class Registration extends Component {
-    constructor() {
-        super();
-        this.state = {
-            error: false,
-        };
-        // this.inputUpdate = this.inputUpdate.bind(this);
-    }
+    state: State = {
+        error: false,
+        first: "",
+        last: "",
+        email: "",
+        password: "",
+    };
 
-    componentDidMount() {
-        // console.log("registration mounted");
-    }
-
-    handleChange(e) {
+    handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
             [e.target.name]: e.target.value,
         });
     }
 
-    handleSubmit(e) {
-        e.preventDefalut;
+    handleSubmit(e: React.SyntheticEvent) {
+        e.preventDefault();
         fetch("/user/register.json", {
             method: "POST",
             headers: {

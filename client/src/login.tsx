@@ -1,21 +1,25 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-export default class Login extends Component {
-    constructor() {
-        super();
-        this.state = {
-            error: false,
-        };
-    }
+type State = {
+    error: boolean;
+    email: string;
+    password: string;
+};
+export default class Login extends Component<State> {
+    state: State = {
+        error: false,
+        email: "",
+        password: "",
+    };
 
-    handleChange(e) {
+    handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         this.setState({
             [e.target.name]: e.target.value,
         });
     }
 
-    handleSubmit(e) {
+    handleSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
         fetch("/user/login.json", {
             method: "POST",

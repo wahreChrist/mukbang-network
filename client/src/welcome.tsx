@@ -3,7 +3,7 @@ import Login from "./login";
 import ResetPassword from "./resetpassword";
 import { BrowserRouter, Route } from "react-router-dom";
 
-export default function Welcome() {
+export default function Welcome(): JSX.Element {
     return (
         <>
             <img

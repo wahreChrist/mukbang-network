@@ -2,18 +2,26 @@ import { Component } from "react";
 import ProfilePic from "./profile-pic";
 import Logo from "./logo";
 import Uploader from "./uploader";
+import Profile from "./profile";
+
+type State = {
+    first: string;
+    last: string;
+    email: string;
+    profilePic: string | undefined;
+    uploaderVisible: boolean;
+    bio: string;
+};
 
 export default class App extends Component {
-    constructor() {
-        super();
-        this.state = {
-            first: "",
-            last: "",
-            email: "",
-            profilePic: undefined,
-            uploaderVisible: false,
-        };
-    }
+    state: State = {
+        first: "",
+        last: "",
+        email: "",
+        profilePic: undefined,
+        uploaderVisible: false,
+        bio: "",
+    };
 
     componentDidMount() {
         fetch("/user")
@@ -24,6 +32,7 @@ export default class App extends Component {
                     last: data.last,
                     email: data.email,
                     profilePic: data.profile_pic,
+                    bio: data.bio,
                 });
             })
             .catch((err) => console.log(err));
@@ -31,7 +40,7 @@ export default class App extends Component {
 
     showUploader() {
         this.setState({
-            uploaderVisible: !this.uploaderVisible,
+            uploaderVisible: !this.state.uploaderVisible,
         });
     }
 
@@ -41,24 +50,23 @@ export default class App extends Component {
         });
     }
 
-    updateProfilePic(newProfilePic) {
+    updateProfilePic(newProfilePic: string) {
         this.setState({
             profilePic: newProfilePic,
+        });
+    }
+
+    updateBio(newBio: string) {
+        this.setState({
+            bio: newBio,
         });
     }
 
     render() {
         return (
             <div id="app">
-                <Logo />
-                <br />
-                <div className="dashboard">
-                    <div className="userInfo">
-                        <h4>
-                            Name: {this.state.first} {this.state.last}
-                        </h4>
-                        <p>E-mail: {this.state.email}</p>
-                    </div>
+                <header>
+                    <Logo />
                     <div className="uploadSection">
                         <ProfilePic
                             url={this.state.profilePic}
@@ -75,6 +83,17 @@ export default class App extends Component {
                             />
                         )}
                     </div>
+                </header>
+
+                <div className="dashboard">
+                    <Profile
+                        profilePic={this.state.profilePic}
+                        first={this.state.first}
+                        last={this.state.last}
+                        email={this.state.email}
+                        bio={this.state.bio}
+                        updateBio={(newBio) => this.updateBio(newBio)}
+                    />
                 </div>
             </div>
         );

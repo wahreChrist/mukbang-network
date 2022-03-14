@@ -58,6 +58,18 @@ app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
         });
 });
 
+app.post("/update-bio", (req, res) => {
+    console.log("received req.body:", req.body);
+    db.updateBio(req.session.sessId, req.body.bioDraft)
+        .then(({ rows }) => {
+            console.log("updated bio from db", rows);
+            res.json(rows[0]);
+        })
+        .catch((err) => {
+            console.log("error in updating bio in db", err);
+        });
+});
+
 app.get("/user/id.json", (req, res) => {
     if (req.session.sessId) {
         res.json({
@@ -73,7 +85,7 @@ app.get("/user/id.json", (req, res) => {
 app.get("/user", (req, res) => {
     db.getUser(req.session.sessId)
         .then(({ rows }) => {
-            console.log("retreived data from db", rows);
+            // console.log("retreived data from db", rows);
             res.json(rows[0]);
         })
         .catch((err) => {
@@ -91,6 +103,7 @@ app.post("/user/register.json", (req, res) => {
             return db.addUser(first, last, email, hashedPassword);
         })
         .then(({ rows }) => {
+            console.log(rows[0].id);
             req.session.sessId = rows[0].id;
             res.json({ success: true });
         })
