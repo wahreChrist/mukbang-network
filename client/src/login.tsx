@@ -6,7 +6,7 @@ type State = {
     email: string;
     password: string;
 };
-export default class Login extends Component<State> {
+export default class Login extends Component {
     state: State = {
         error: false,
         email: "",

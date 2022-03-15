@@ -3,6 +3,8 @@ import ProfilePic from "./profile-pic";
 import Logo from "./logo";
 import Uploader from "./uploader";
 import Profile from "./profile";
+import FindPeople from "./findpeople";
+import { BrowserRouter, Link, Route } from "react-router-dom";
 
 type State = {
     first: string;
@@ -65,36 +67,46 @@ export default class App extends Component {
     render() {
         return (
             <div id="app">
-                <header>
-                    <Logo />
-                    <div className="uploadSection">
-                        <ProfilePic
-                            url={this.state.profilePic}
-                            first={this.state.first}
-                            last={this.state.last}
-                            showUploader={() => this.showUploader()}
-                        />
-                        {this.state.uploaderVisible && (
-                            <Uploader
-                                hideUploader={() => this.hideUploader()}
-                                updateProfilePic={(newProfilePic) =>
-                                    this.updateProfilePic(newProfilePic)
-                                }
+                <BrowserRouter>
+                    <header>
+                        <Logo />
+                        <div className="uploadSection">
+                            <Link to="/users" className="searchLink">
+                                Search for people
+                            </Link>
+                            <ProfilePic
+                                url={this.state.profilePic}
+                                first={this.state.first}
+                                last={this.state.last}
+                                showUploader={() => this.showUploader()}
                             />
-                        )}
-                    </div>
-                </header>
+                            {this.state.uploaderVisible && (
+                                <Uploader
+                                    hideUploader={() => this.hideUploader()}
+                                    updateProfilePic={(newProfilePic) =>
+                                        this.updateProfilePic(newProfilePic)
+                                    }
+                                />
+                            )}
+                        </div>
+                    </header>
 
-                <div className="dashboard">
-                    <Profile
-                        profilePic={this.state.profilePic}
-                        first={this.state.first}
-                        last={this.state.last}
-                        email={this.state.email}
-                        bio={this.state.bio}
-                        updateBio={(newBio) => this.updateBio(newBio)}
-                    />
-                </div>
+                    <div className="dashboard">
+                        <Route exact path="/">
+                            <Profile
+                                profilePic={this.state.profilePic}
+                                first={this.state.first}
+                                last={this.state.last}
+                                email={this.state.email}
+                                bio={this.state.bio}
+                                updateBio={(newBio) => this.updateBio(newBio)}
+                            />
+                        </Route>
+                        <Route path="/users">
+                            <FindPeople />
+                        </Route>
+                    </div>
+                </BrowserRouter>
             </div>
         );
     }

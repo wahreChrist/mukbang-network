@@ -82,3 +82,22 @@ module.exports.updateBio = (id, bio) => {
         [id, bio]
     );
 };
+
+module.exports.getAllUsers = () => {
+    return db.query(`
+        SELECT id, first, last, profile_pic FROM users
+        ORDER BY created_at DESC
+        LIMIT 3
+    `);
+};
+
+module.exports.getMatchingUsers = (val) => {
+    return db.query(
+        `
+        SELECT id, first, last, profile_pic FROM users
+        WHERE first ILIKE $1
+    
+    `,
+        [val + "%"]
+    );
+};

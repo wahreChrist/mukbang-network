@@ -53,6 +53,7 @@ header {
     display: flex;
     width: 800px;
     border: 3px solid;
+    padding: 1em;
     /* justify-content: space-between; */
 }
 
@@ -66,6 +67,11 @@ header {
 
 .uploadSection {
     align-self: center;
+    display: flex;
+}
+.searchLink {
+    align-self: center;
+    margin-right: 1em;
 }
 
 .profilePic {
@@ -77,4 +83,26 @@ header {
     width: 300px;
     object-fit: cover;
     /* padding: 0.5em; */
+}
+
+.userElement {
+    display: flex;
+    padding: 0.5em;
+}
+
+.userElement:hover {
+    background-color: rgb(233, 232, 231);
+    width: 400px;
+}
+
+.userElement--photo {
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    height: 50px;
+}
+
+.searchResult {
+    margin-left: 0.6em;
+    font-weight: 400;
 }

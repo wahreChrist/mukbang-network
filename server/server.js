@@ -59,7 +59,6 @@ app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
 });
 
 app.post("/update-bio", (req, res) => {
-    console.log("received req.body:", req.body);
     db.updateBio(req.session.sessId, req.body.bioDraft)
         .then(({ rows }) => {
             console.log("updated bio from db", rows);
@@ -93,6 +92,28 @@ app.get("/user", (req, res) => {
             res.json({
                 success: false,
             });
+        });
+});
+
+//get all users route
+app.get("/getAllUsers", (req, res) => {
+    db.getAllUsers()
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("error in getting all users", err);
+        });
+});
+
+app.get("/searchUsers/:search", (req, res) => {
+    // console.log("req.params:", req.params);
+    db.getMatchingUsers(req.params.search)
+        .then(({ rows }) => {
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log("error in searching query", err);
         });
 });
 
