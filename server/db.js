@@ -101,3 +101,12 @@ module.exports.getMatchingUsers = (val) => {
         [val + "%"]
     );
 };
+
+module.exports.fetchOtherUser = (userId) => {
+    return db.query(
+        `
+        SELECT id, first, last, email, profile_pic, bio  FROM users WHERE id = $1
+    `,
+        [userId]
+    );
+};

@@ -58,15 +58,17 @@ app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
         });
 });
 
-app.post("/update-bio", (req, res) => {
-    db.updateBio(req.session.sessId, req.body.bioDraft)
-        .then(({ rows }) => {
-            console.log("updated bio from db", rows);
-            res.json(rows[0]);
-        })
-        .catch((err) => {
-            console.log("error in updating bio in db", err);
-        });
+app.post("/update-bio", async (req, res) => {
+    try {
+        const updateBio = await db.updateBio(
+            req.session.sessId,
+            req.body.bioDraft
+        );
+        // console.log("updated bio from db", updateBio.rows);
+        res.json(updateBio.rows[0]);
+    } catch (err) {
+        console.log("error in updating bio in db", err);
+    }
 });
 
 app.get("/user/id.json", (req, res) => {
@@ -81,39 +83,44 @@ app.get("/user/id.json", (req, res) => {
     }
 });
 
-app.get("/user", (req, res) => {
-    db.getUser(req.session.sessId)
-        .then(({ rows }) => {
-            // console.log("retreived data from db", rows);
-            res.json(rows[0]);
-        })
-        .catch((err) => {
-            console.log("error in retreiving a user data", err);
-            res.json({
-                success: false,
-            });
-        });
+app.get("/user", async (req, res) => {
+    try {
+        const getUser = await db.getUser(req.session.sessId);
+        res.json(getUser.rows[0]);
+    } catch (err) {
+        console.log("error in retreiving a user data", err);
+    }
 });
 
 //get all users route
-app.get("/getAllUsers", (req, res) => {
-    db.getAllUsers()
-        .then(({ rows }) => {
-            res.json(rows);
-        })
-        .catch((err) => {
-            console.log("error in getting all users", err);
-        });
+app.get("/getAllUsers", async (req, res) => {
+    try {
+        const getAllUsers = await db.getAllUsers();
+        res.json(getAllUsers.rows);
+    } catch (err) {
+        console.log("error in getting all users", err);
+    }
 });
 
-app.get("/searchUsers/:search", (req, res) => {
-    // console.log("req.params:", req.params);
-    db.getMatchingUsers(req.params.search)
+app.get("/searchUsers/:search", async (req, res) => {
+    try {
+        // console.log("req.params:", req.params);
+        const getMatchingUsers = await db.getMatchingUsers(req.params.search);
+        res.json(getMatchingUsers.rows);
+    } catch (err) {
+        console.log("error in searching query", err);
+    }
+});
+
+app.get("/fetchUser/:otherUserId", (req, res) => {
+    db.fetchOtherUser(req.params.otherUserId)
         .then(({ rows }) => {
+            rows.push(req.session.sessId);
+            // console.log("rows object from fetching other user info", rows);
             res.json(rows);
         })
         .catch((err) => {
-            console.log("error in searching query", err);
+            console.log("error in getting user info", err);
         });
 });
 
@@ -158,7 +165,7 @@ app.post("/user/login.json", (req, res) => {
 });
 
 app.post("/password/reset/start", (req, res) => {
-    console.log("req.body:", req.body);
+    // console.log("req.body:", req.body);
     db.login(req.body.email)
         .then(({ rows }) => {
             if (rows[0].id) {
@@ -172,8 +179,7 @@ app.post("/password/reset/start", (req, res) => {
             }
         })
         .then(({ rows }) => {
-            //returned code
-            console.log("returned object after code insertion", rows);
+            // console.log("returned object after code insertion", rows);
             ses.sendEmail(
                 "frollscuba@gmail.com",
                 `Please enter this code to confirm your E-mail: ${rows[0].code}`,
@@ -190,7 +196,7 @@ app.post("/password/reset/start", (req, res) => {
 });
 
 app.post("/password/reset/verify", (req, res) => {
-    console.log("req.body:", req.body); // req.body.code && req.body.newPass
+    // console.log("req.body:", req.body); // req.body.code && req.body.newPass
     db.verifyCode(req.body.email)
         .then(({ rows }) => {
             if (rows[0].code == req.body.code) {

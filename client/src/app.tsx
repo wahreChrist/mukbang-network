@@ -4,6 +4,7 @@ import Logo from "./logo";
 import Uploader from "./uploader";
 import Profile from "./profile";
 import FindPeople from "./findpeople";
+import OtherProfile from "./otherprofile";
 import { BrowserRouter, Link, Route } from "react-router-dom";
 
 type State = {
@@ -40,25 +41,19 @@ export default class App extends Component {
             .catch((err) => console.log(err));
     }
 
-    showUploader() {
+    showUploader(): void {
         this.setState({
             uploaderVisible: !this.state.uploaderVisible,
         });
     }
 
-    hideUploader() {
-        this.setState({
-            uploaderVisible: false,
-        });
-    }
-
-    updateProfilePic(newProfilePic: string) {
+    updateProfilePic(newProfilePic: string): void {
         this.setState({
             profilePic: newProfilePic,
         });
     }
 
-    updateBio(newBio: string) {
+    updateBio(newBio: string): void {
         this.setState({
             bio: newBio,
         });
@@ -69,11 +64,14 @@ export default class App extends Component {
             <div id="app">
                 <BrowserRouter>
                     <header>
-                        <Logo />
+                        <Link to="/">
+                            <Logo />
+                        </Link>
                         <div className="uploadSection">
                             <Link to="/users" className="searchLink">
                                 Search for people
                             </Link>
+
                             <ProfilePic
                                 url={this.state.profilePic}
                                 first={this.state.first}
@@ -82,7 +80,7 @@ export default class App extends Component {
                             />
                             {this.state.uploaderVisible && (
                                 <Uploader
-                                    hideUploader={() => this.hideUploader()}
+                                    hideUploader={() => this.showUploader()}
                                     updateProfilePic={(newProfilePic) =>
                                         this.updateProfilePic(newProfilePic)
                                     }
@@ -104,6 +102,9 @@ export default class App extends Component {
                         </Route>
                         <Route path="/users">
                             <FindPeople />
+                        </Route>
+                        <Route path="/api/user/:otherUserId">
+                            <OtherProfile />
                         </Route>
                     </div>
                 </BrowserRouter>
