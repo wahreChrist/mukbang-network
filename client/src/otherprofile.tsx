@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
+import FriendButton from "./friendbutton";
 
 interface UserInfo {
     id: number;
@@ -25,7 +26,7 @@ export default function OtherProfile(): JSX.Element {
                 try {
                     const response = await fetch(`/fetchUser/${otherUserId}`);
                     const data = await response.json();
-                    console.log("data obj:", data);
+                    // console.log("data obj:", data);
                     const [userInfo, myId] = data;
                     myId == parseInt(otherUserId)
                         ? history.push("/")
@@ -53,11 +54,16 @@ export default function OtherProfile(): JSX.Element {
                 <h2 style={centerText}> 404 User with such id doesnt exists</h2>
             ) : (
                 <>
-                    <img
-                        className="profilePicBig"
-                        src={userData.profile_pic || "defaultProfilePic.jpg"}
-                        alt="profilepic"
-                    />
+                    <div className="picAndBtn" style={{ display: "flex" }}>
+                        <img
+                            className="profilePicBig"
+                            src={
+                                userData.profile_pic || "/defaultProfilePic.jpg"
+                            }
+                            alt="profilepic"
+                        />
+                        <FriendButton otherUserId={parseInt(otherUserId)} />
+                    </div>
                     <div className="userInfo">
                         <h4>
                             {userData.first} {userData.last}

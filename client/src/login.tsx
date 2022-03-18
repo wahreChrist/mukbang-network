@@ -32,9 +32,9 @@ export default class Login extends Component {
             .then((data) => {
                 //login logic
                 console.log("response from login", data);
-                data.success == false
-                    ? this.setState({ error: true })
-                    : location.reload();
+                data.success
+                    ? location.reload()
+                    : this.setState({ error: true });
             })
             .catch((err) => {
                 console.log("error in login fetch request", err);

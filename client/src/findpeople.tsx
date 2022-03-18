@@ -55,7 +55,7 @@ export default function FindPeople(): JSX.Element {
                 <div key={user.id} className="userElement">
                     <img
                         className="userElement--photo"
-                        src={user.profile_pic || "defaultProfilePic.jpg"}
+                        src={user.profile_pic || "/defaultProfilePic.jpg"}
                         alt="photo preview"
                     />
                     <p className="searchResult">

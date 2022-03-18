@@ -21,6 +21,7 @@ exports.upload = (req, res, next) => {
 
     const { filename, mimetype, size, path } = req.file;
 
+    // eslint-disable-next-line no-unused-vars
     const promise = s3
         .putObject({
             Bucket: "khorneworldeaters",

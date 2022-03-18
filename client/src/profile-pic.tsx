@@ -6,7 +6,7 @@ type AppProps = {
 };
 
 export default function ProfilePic(props: AppProps): JSX.Element {
-    let url = props.url || "defaultProfilePic.jpg";
+    let url = props.url || "/defaultProfilePic.jpg";
     return (
         <div onClick={props.showUploader}>
             <img

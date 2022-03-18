@@ -92,6 +92,51 @@ app.get("/user", async (req, res) => {
     }
 });
 
+app.get("/friendship/:otherUserId", async (req, res) => {
+    // console.log(req.params); works
+    try {
+        const getStatus = await db.getStatus(
+            req.session.sessId,
+            req.params.otherUserId
+        );
+        console.log("pair status", getStatus.rows[0]);
+        getStatus.rows.length == 0
+            ? res.json({ status: "empty" })
+            : res.json(getStatus.rows[0]);
+    } catch (err) {
+        console.log("error in getting friend status", err);
+    }
+});
+
+app.post("/friendship-status", async (req, res) => {
+    // req.body
+    if (req.body.action === "Send fren request") {
+        // eslint-disable-next-line no-unused-vars
+        const performReq = await db.createInvite(
+            req.session.sessId,
+            req.body.otherUserId
+        );
+        res.json({ status: "inviteSent" });
+    } else if (
+        req.body.action === "Unfren" ||
+        req.body.action === "Cancel fren request"
+    ) {
+        // eslint-disable-next-line no-unused-vars
+        const performReq = await db.unfriend(
+            req.session.sessId,
+            req.body.otherUserId
+        );
+        res.json({ status: "unfriended/canceled" });
+    } else if (req.body.action === "Accept fren request") {
+        // eslint-disable-next-line no-unused-vars
+        const performReq = await db.acceptInvite(
+            req.session.sessId,
+            req.body.otherUserId
+        );
+        res.json({ status: "accepted" });
+    }
+});
+
 //get all users route
 app.get("/getAllUsers", async (req, res) => {
     try {
@@ -124,44 +169,70 @@ app.get("/fetchUser/:otherUserId", (req, res) => {
         });
 });
 
-app.post("/user/register.json", (req, res) => {
+app.post("/user/register.json", async (req, res) => {
     const { first, last, email, password } = req.body;
-    hash(password)
-        .then((hashedPassword) => {
-            return db.addUser(first, last, email, hashedPassword);
-        })
-        .then(({ rows }) => {
-            console.log(rows[0].id);
-            req.session.sessId = rows[0].id;
+    if (
+        first != "" &&
+        first.length > 3 &&
+        last != "" &&
+        last.length > 3 &&
+        email != "" &&
+        email.length > 3 &&
+        password != "" &&
+        password.length > 3
+    ) {
+        try {
+            const hashedPassword = await hash(password);
+            const addUser = await db.addUser(
+                first,
+                last,
+                email,
+                hashedPassword
+            );
+            console.log(addUser.rows[0].id);
+            req.session.sessId = addUser.rows[0].id;
             res.json({ success: true });
-        })
-        .catch((err) => {
+        } catch (err) {
             console.log("error in adding user", err);
             res.json({ success: false });
-        });
+        }
+    } else {
+        console.log("provide valid credentials");
+        res.json({ success: false });
+    }
 });
 
-app.post("/user/login.json", (req, res) => {
-    let tempId;
-    db.login(req.body.email)
-        .then(({ rows }) => {
-            tempId = rows[0].id;
-            return compare(req.body.password, rows[0].password); // bcrypts function that compares first and second arguments
-        })
-        .then((isMatch) => {
-            if (isMatch) {
+app.post("/user/login.json", async (req, res) => {
+    if (req.body.email != "" && req.body.password != "") {
+        try {
+            let tempId;
+            const login = await db.login(req.body.email);
+            tempId = login.rows[0].id;
+            const comparison = await compare(
+                req.body.password,
+                login.rows[0].password
+            ); // bcrypts function that compares first and second arguments
+            // console.log("match?", comparison); //isMatch property omited?
+            if (comparison) {
                 req.session.sessId = tempId;
                 res.json({
                     success: true,
                 });
+            } else {
+                throw new Error("password doesnt match");
             }
-        })
-        .catch((err) => {
+        } catch (err) {
             console.log("login error on backend", err);
             res.json({
                 success: false,
             });
+        }
+    } else {
+        console.log("provide valid login credentials");
+        res.json({
+            success: false,
         });
+    }
 });
 
 app.post("/password/reset/start", (req, res) => {

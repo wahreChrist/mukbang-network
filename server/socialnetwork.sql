@@ -18,3 +18,14 @@
 --     code VARCHAR NOT NULL,
 --     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 --   );
+
+-- DROP TABLE IF EXISTS friendships;
+
+-- CREATE TABLE friendships(
+--     id SERIAL PRIMARY KEY,
+--     sender_id INTEGER REFERENCES users(id),
+--     recipient_id INTEGER REFERENCES users(id),
+--     accepted BOOLEAN
+--   );
+
+CREATE UNIQUE INDEX ON friendships (least(sender_id, recipient_id), greatest(sender_id, recipient_id));

@@ -21,7 +21,7 @@ export default class Profile extends Component<AppProps> {
             <>
                 <img
                     className="profilePicBig"
-                    src={this.props.profilePic || "defaultProfilePic.jpg"}
+                    src={this.props.profilePic || "/defaultProfilePic.jpg"}
                     alt="profilepic"
                 />
                 <div className="userInfo">

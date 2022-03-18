@@ -110,3 +110,43 @@ module.exports.fetchOtherUser = (userId) => {
         [userId]
     );
 };
+
+module.exports.getStatus = (loggedId, otherUserId) => {
+    return db.query(
+        `
+        SELECT * FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1)
+    `,
+        [loggedId, otherUserId]
+    );
+};
+
+module.exports.createInvite = (loggedId, otherUserId) => {
+    return db.query(
+        `
+        INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES ($1, $2, $3) 
+    `,
+        [loggedId, otherUserId, false]
+    );
+};
+
+module.exports.acceptInvite = (loggedId, otherUserId) => {
+    return db.query(
+        `
+        UPDATE friendships SET accepted = $3 WHERE (recipient_id = $1 AND sender_id = $2)
+        
+    `,
+        [loggedId, otherUserId, true]
+    );
+};
+
+module.exports.unfriend = (loggedId, otherUserId) => {
+    return db.query(
+        `
+        DELETE FROM friendships WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1) 
+    `,
+        [loggedId, otherUserId]
+    );
+};
