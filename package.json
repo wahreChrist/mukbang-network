@@ -63,7 +63,7 @@
     },
     "jest": {
         "preset": "ts-jest",
-        "testEnvironment": "node"
+        "testEnvironment": "jsdom"
     },
     "keywords": [],
     "author": "",
