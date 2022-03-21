@@ -54,9 +54,9 @@ export default function OtherProfile(): JSX.Element {
                 <h2 style={centerText}> 404 User with such id doesnt exists</h2>
             ) : (
                 <>
-                    <div className="picAndBtn" style={{ display: "flex" }}>
+                    <div className="flex flex-col">
                         <img
-                            className="profilePicBig"
+                            className="w-[200px] h-[250px] object-cover"
                             src={
                                 userData.profile_pic || "/defaultProfilePic.jpg"
                             }

@@ -99,7 +99,7 @@ app.get("/friendship/:otherUserId", async (req, res) => {
             req.session.sessId,
             req.params.otherUserId
         );
-        console.log("pair status", getStatus.rows[0]);
+        // console.log("pair status", getStatus.rows[0]);
         getStatus.rows.length == 0
             ? res.json({ status: "empty" })
             : res.json(getStatus.rows[0]);
@@ -108,32 +108,49 @@ app.get("/friendship/:otherUserId", async (req, res) => {
     }
 });
 
+//friend_requests
 app.post("/friendship-status", async (req, res) => {
-    // req.body
-    if (req.body.action === "Send fren request") {
-        // eslint-disable-next-line no-unused-vars
-        const performReq = await db.createInvite(
-            req.session.sessId,
-            req.body.otherUserId
-        );
-        res.json({ status: "inviteSent" });
-    } else if (
-        req.body.action === "Unfren" ||
-        req.body.action === "Cancel fren request"
-    ) {
-        // eslint-disable-next-line no-unused-vars
-        const performReq = await db.unfriend(
-            req.session.sessId,
-            req.body.otherUserId
-        );
-        res.json({ status: "unfriended/canceled" });
-    } else if (req.body.action === "Accept fren request") {
-        // eslint-disable-next-line no-unused-vars
-        const performReq = await db.acceptInvite(
-            req.session.sessId,
-            req.body.otherUserId
-        );
-        res.json({ status: "accepted" });
+    try {
+        // req.body
+        if (req.body.action === "Send fren request") {
+            // eslint-disable-next-line no-unused-vars
+            const performReq = await db.createInvite(
+                req.session.sessId,
+                req.body.otherUserId
+            );
+            res.json({ status: "inviteSent" });
+        } else if (
+            req.body.action === "Unfren" ||
+            req.body.action === "Cancel fren request"
+        ) {
+            // eslint-disable-next-line no-unused-vars
+            const performReq = await db.unfriend(
+                req.session.sessId,
+                req.body.otherUserId
+            );
+            res.json({ status: "unfriended/canceled" });
+        } else if (req.body.action === "Accept fren request") {
+            // eslint-disable-next-line no-unused-vars
+            const performReq = await db.acceptInvite(
+                req.session.sessId,
+                req.body.otherUserId
+            );
+            res.json({ status: "accepted" });
+        } else {
+            res.json({ status: "error" });
+        }
+    } catch (err) {
+        console.log("error in updating friend status", err);
+    }
+});
+
+app.get("/friends-wannabees", async (req, res) => {
+    try {
+        const allFriends = await db.getAllFriends(req.session.sessId);
+        // console.log("allFriends object:", allFriends.rows);
+        res.json(allFriends.rows);
+    } catch (err) {
+        console.log("error in getting friend lists:", err);
     }
 });
 
@@ -168,7 +185,7 @@ app.get("/fetchUser/:otherUserId", (req, res) => {
             console.log("error in getting user info", err);
         });
 });
-
+//login and register logic
 app.post("/user/register.json", async (req, res) => {
     const { first, last, email, password } = req.body;
     if (
