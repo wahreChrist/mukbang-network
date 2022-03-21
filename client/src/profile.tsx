@@ -20,15 +20,15 @@ export default class Profile extends Component<AppProps> {
         return (
             <>
                 <img
-                    className="profilePicBig"
+                    className="w-[200px] h-[250px] object-cover"
                     src={this.props.profilePic || "/defaultProfilePic.jpg"}
                     alt="profilepic"
                 />
-                <div className="userInfo">
-                    <h4>
+                <div className="mx-4 w-9/12">
+                    <h3 className="font-semibold text-lg">
                         {this.props.first} {this.props.last}
-                    </h4>
-                    <p>{this.props.email}</p>
+                    </h3>
+                    <h4 className="text-base">E-mail: {this.props.email}</h4>
                     <BioEditor
                         bio={this.props.bio}
                         updateBio={this.props.updateBio}

@@ -61,14 +61,17 @@ export default class App extends Component {
 
     render() {
         return (
-            <div id="app">
+            <div id="app" className="flex flex-col text-[#1d3557]">
                 <BrowserRouter>
                     <header>
                         <Link to="/">
                             <Logo />
                         </Link>
-                        <div className="uploadSection">
-                            <Link to="/users" className="searchLink">
+                        <div className="flex self-center">
+                            <Link
+                                to="/users"
+                                className="self-center mr-4 bg-[#457b9d] text-white rounded py-2 px-4 hover:bg-[#1d3557] shadow-lg shadow-stone-500/40"
+                            >
                                 Search for people
                             </Link>
 
@@ -89,7 +92,7 @@ export default class App extends Component {
                         </div>
                     </header>
 
-                    <div className="dashboard">
+                    <div className="flex p-4 w-[800px] border-2 border-[#457b9d] min-h-[450px] mb-4">
                         <Route exact path="/">
                             <Profile
                                 profilePic={this.state.profilePic}

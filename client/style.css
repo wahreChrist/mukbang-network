@@ -1,6 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 body {
     margin: 0;
     background-color: #f5f5f5;
+    color: #1d3557;
 }
 
 main {
@@ -44,46 +49,7 @@ header {
     margin-bottom: 0.5em;
 }
 
-#app {
-    display: flex;
-    flex-direction: column;
-}
-
-.dashboard {
-    display: flex;
-    width: 800px;
-    border: 3px solid;
-    padding: 1em;
-    /* justify-content: space-between; */
-}
-
-.userInfo {
-    padding: 1em;
-}
-
-.userInfo h4 {
-    margin: 0;
-}
-
-.uploadSection {
-    align-self: center;
-    display: flex;
-}
-.searchLink {
-    align-self: center;
-    margin-right: 1em;
-}
-
-.profilePic {
-    width: 60px;
-    object-fit: cover;
-    /* padding: 0.5em; */
-}
-.profilePicBig {
-    width: 200px;
-    object-fit: cover;
-    /* padding: 0.5em; */
-}
+/* app */
 
 .userElement {
     display: flex;

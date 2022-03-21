@@ -10,7 +10,7 @@ export default function ProfilePic(props: AppProps): JSX.Element {
     return (
         <div onClick={props.showUploader}>
             <img
-                className="profilePic"
+                className="w-[60px] object-cover cursor-pointer"
                 src={url}
                 alt={`${props.first} ${props.last}`}
             />

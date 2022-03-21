@@ -54,29 +54,39 @@ export default class BioEditor extends Component<Props, State> {
         return (
             <div>
                 {this.state.editMode && (
-                    <div>
+                    <div className="flex flex-col">
                         <textarea
+                            className="w-full my-2 rounded"
                             name="bioDraft"
                             defaultValue={this.props.bio}
                             onChange={(e) => this.handleChange(e)}
                         ></textarea>
-                        <button onClick={(e) => this.handleSubmit(e)}>
+                        <button
+                            onClick={(e) => this.handleSubmit(e)}
+                            className="text-xs rounded-full py-1.5 px-8 text-white font-medium self-center bg-[#e63946]"
+                        >
                             Save
                         </button>
                     </div>
                 )}
                 {!this.state.editMode && this.props.bio && (
                     <div>
-                        <p>{this.props.bio}</p>
-                        <button onClick={(e) => this.toggleEdit(e)}>
+                        <p className="text-sm pt-1">{this.props.bio}</p>
+                        <button
+                            onClick={(e) => this.toggleEdit(e)}
+                            className="text-xs rounded py-1.5 px-4 mt-2 text-white font-medium bg-[#1d3557] shadow-lg shadow-stone-500/40"
+                        >
                             Edit bio
                         </button>
                     </div>
                 )}
                 {!this.state.editMode && !this.props.bio && (
                     <div>
-                        <p>{this.props.bio}</p>
-                        <button onClick={(e) => this.toggleEdit(e)}>
+                        <p className="text-sm pt-2">{this.props.bio}</p>
+                        <button
+                            onClick={(e) => this.toggleEdit(e)}
+                            className="text-xs rounded py-1.5 px-4 mt-2 text-white font-medium bg-[#1d3557] shadow-lg shadow-stone-500/40"
+                        >
                             Add bio
                         </button>
                     </div>
