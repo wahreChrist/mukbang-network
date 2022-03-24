@@ -165,3 +165,25 @@ module.exports.getAllFriends = (id) => {
         [id]
     );
 };
+
+module.exports.getLatestMessages = () => {
+    return db.query(`
+    SELECT messages.id, messages.sender_id, messages.message_text, messages.timestamp, users.first, users.last, users.profile_pic
+    FROM messages
+    JOIN users
+    ON users.id = messages.sender_id 
+    ORDER BY messages.id DESC 
+    LIMIT 10
+    `);
+};
+
+module.exports.saveMessages = (userId, text) => {
+    return db.query(
+        `
+    INSERT INTO messages (sender_id, message_text)
+    VALUES ($1, $2)
+    RETURNING *
+    `,
+        [userId, text]
+    );
+};

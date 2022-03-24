@@ -10,6 +10,11 @@ const cryptoRandomString = require("crypto-random-string");
 const multer = require("multer");
 const uidSafe = require("uid-safe");
 const s3 = require("./s3");
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(null, req.headers.referer.startsWith("http://localhost:3000")),
+});
 
 app.use(compression());
 
@@ -17,13 +22,17 @@ app.use(express.static(path.join(__dirname, "..", "client", "public")));
 
 app.use(express.json());
 
-app.use(
-    cookieSession({
-        secret: `secret string`,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-    })
-);
+const cookieSessionMw = cookieSession({
+    secret: `secret string`,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    sameSite: true,
+});
+
+app.use(cookieSessionMw);
+
+io.use(function (socket, next) {
+    cookieSessionMw(socket.request, socket.request.res, next);
+});
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
@@ -310,6 +319,36 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("I'm listening.");
+});
+
+io.on("connection", async function (socket) {
+    if (!socket.request.session.sessId) {
+        return socket.disconnect(true);
+    }
+
+    const sessId = socket.request.session.sessId;
+
+    const { rows } = await db.getLatestMessages();
+    socket.emit("latestMessages", rows);
+
+    socket.on("chatMessage", function (msg) {
+        let tableInfo = {};
+        db.saveMessages(sessId, msg.userInput).then(function ({ rows }) {
+            tableInfo.message_text = rows[0].message_text;
+            tableInfo.timestamp = rows[0].timestamp;
+
+            db.getUser(sessId).then(({ rows }) => {
+                io.emit("chatMessage", {
+                    first: rows[0].first,
+                    last: rows[0].last,
+                    message: msg.userInput,
+                    profile_pic: rows[0].profile_pic,
+                    message_text: tableInfo.message_text,
+                    timestamp: tableInfo.timestamp,
+                });
+            });
+        });
+    });
 });

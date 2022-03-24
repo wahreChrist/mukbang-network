@@ -82,7 +82,7 @@ export default class BioEditor extends Component<Props, State> {
                 )}
                 {!this.state.editMode && !this.props.bio && (
                     <div>
-                        <p className="text-sm pt-2">{this.props.bio}</p>
+                        <p className="text-sm pt-1">{this.props.bio}</p>
                         <button
                             onClick={(e) => this.toggleEdit(e)}
                             className="text-xs rounded py-1.5 px-4 mt-2 text-white font-medium bg-[#1d3557] shadow-lg shadow-stone-500/40"

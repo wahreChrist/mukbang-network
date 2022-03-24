@@ -31,14 +31,14 @@
 -- CREATE UNIQUE INDEX ON friendships (least(sender_id, recipient_id), greatest(sender_id, recipient_id));
 
 -- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (1, 206, false);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (2, 206, false);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (3, 206, false);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (4, 206, false);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (5, 206, false);
 
 -- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (35, 206, true);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (36, 206, true);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (37, 206, true);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (38, 206, true);
--- INSERT INTO friendships (sender_id, recipient_id, accepted) VALUES (39, 206, true);
 
+-- DROP TABLE IF EXISTS messages;
+
+-- CREATE TABLE messages(
+--     id SERIAL PRIMARY KEY,
+--     sender_id INTEGER REFERENCES users(id),
+--     message_text VARCHAR,
+--     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+--   );

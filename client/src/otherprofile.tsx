@@ -56,7 +56,7 @@ export default function OtherProfile(): JSX.Element {
                 <>
                     <div className="flex flex-col">
                         <img
-                            className="w-[200px] h-[250px] object-cover"
+                            className="w-[200px] h-[250px] object-cover mb-2"
                             src={
                                 userData.profile_pic || "/defaultProfilePic.jpg"
                             }
@@ -64,12 +64,12 @@ export default function OtherProfile(): JSX.Element {
                         />
                         <FriendButton otherUserId={parseInt(otherUserId)} />
                     </div>
-                    <div className="userInfo">
-                        <h4>
+                    <div className="px-2">
+                        <h4 className="font-semibold text-lg">
                             {userData.first} {userData.last}
                         </h4>
-                        <p>{userData.email}</p>
-                        <p>{userData.bio}</p>
+                        <p>E-mail: {userData.email}</p>
+                        <p className="text-sm py-1">{userData.bio}</p>
                     </div>
                 </>
             )}
