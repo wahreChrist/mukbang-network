@@ -244,6 +244,7 @@ app.post("/user/login.json", async (req, res) => {
                 res.json({
                     success: true,
                 });
+                // res.redirect("/");
             } else {
                 throw new Error("password doesnt match");
             }
@@ -313,6 +314,11 @@ app.post("/password/reset/verify", (req, res) => {
             console.log("error in updating pass", err);
             res.json({ success: false });
         });
+});
+
+app.get("/logout", (req, res) => {
+    req.session.sessId = null;
+    res.redirect("/");
 });
 
 app.get("*", function (req, res) {

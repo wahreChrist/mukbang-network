@@ -47,13 +47,12 @@ export default class Login extends Component {
     render() {
         return (
             <>
-                <h1>Login</h1>
-                <p>Social network for a hambeasts</p>
                 {this.state.error && (
-                    <div style={{ color: "red" }}>*There was an error</div>
+                    <div className="text-red-600">*There was an error</div>
                 )}
-                <form method="POST" className="loginForm">
+                <form method="POST" className="flex flex-col space-y-4">
                     <input
+                        className="p-1.5"
                         type="text"
                         name="email"
                         placeholder="Email"
@@ -61,15 +60,26 @@ export default class Login extends Component {
                         onChange={(e) => this.handleChange(e)}
                     ></input>
                     <input
-                        type="text"
+                        className="p-1.5"
+                        type="password"
                         name="password"
                         placeholder="password"
                         required
                         onChange={(e) => this.handleChange(e)}
                     ></input>
-                    <button onClick={(e) => this.handleSubmit(e)}>Login</button>
+                    <button
+                        className="font-bold bg-[#1d3557] text-white p-2 hover:border-2 hover:border-[#1d3557] hover:text-[#1d3557] hover:bg-white"
+                        onClick={(e) => this.handleSubmit(e)}
+                    >
+                        Login
+                    </button>
+                    <Link
+                        className="font-semibold hover:text-red-700"
+                        to="/reset-password"
+                    >
+                        Reset you password
+                    </Link>
                 </form>
-                <Link to="/reset-password">Reset you password</Link>
             </>
         );
     }

@@ -1,7 +1,7 @@
 import {
     latestMessagesReceived,
     chatMessageReceived,
-} from "./redux/messages/slice.js";
+} from "./redux/messages/slice";
 import { io } from "socket.io-client";
 
 export let socket;

@@ -28,7 +28,7 @@ export default class Profile extends Component<AppProps> {
                     <h3 className="font-semibold text-lg">
                         {this.props.first} {this.props.last}
                     </h3>
-                    <h4>E-mail: {this.props.email}</h4>
+                    <h4 className="my-2">E-mail: {this.props.email}</h4>
                     <BioEditor
                         bio={this.props.bio}
                         updateBio={this.props.updateBio}

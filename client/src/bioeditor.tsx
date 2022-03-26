@@ -71,10 +71,10 @@ export default class BioEditor extends Component<Props, State> {
                 )}
                 {!this.state.editMode && this.props.bio && (
                     <div>
-                        <p className="text-sm pt-1">{this.props.bio}</p>
+                        <p className="text-sm">{this.props.bio}</p>
                         <button
                             onClick={(e) => this.toggleEdit(e)}
-                            className="text-xs rounded py-1.5 px-4 mt-2 text-white font-medium bg-[#1d3557] shadow-lg shadow-stone-500/40"
+                            className="text-xs rounded py-1.5 px-4 mt-4 text-[#1d3557] bg-[#F1FAEE] font-medium shadow-lg shadow-stone-500/40 hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/50 hover:text-white"
                         >
                             Edit bio
                         </button>
@@ -82,10 +82,10 @@ export default class BioEditor extends Component<Props, State> {
                 )}
                 {!this.state.editMode && !this.props.bio && (
                     <div>
-                        <p className="text-sm pt-1">{this.props.bio}</p>
+                        <p className="text-sm">{this.props.bio}</p>
                         <button
                             onClick={(e) => this.toggleEdit(e)}
-                            className="text-xs rounded py-1.5 px-4 mt-2 text-white font-medium bg-[#1d3557] shadow-lg shadow-stone-500/40"
+                            className="text-xs rounded py-1.5 px-4 mt-4 text-[#1d3557] bg-[#F1FAEE] font-medium shadow-lg shadow-stone-500/40 hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/50 hover:text-white"
                         >
                             Add bio
                         </button>

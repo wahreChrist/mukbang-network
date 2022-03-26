@@ -20,8 +20,10 @@
         "@babel/polyfill": "^7.4.3",
         "@babel/preset-env": "^7.12.11",
         "@babel/preset-react": "^7.12.10",
+        "@fortawesome/react-fontawesome": "^0.1.18",
         "@testing-library/react": "^11.2.2",
         "@types/jest": "^27.4.1",
+        "@types/react-redux": "^7.1.23",
         "@types/react-router-dom": "^5.1.8",
         "aws-sdk": "^2.815.0",
         "axios": "^0.21.1",
@@ -69,6 +71,8 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@types/react": "^17.0.43",
+        "@types/react-dom": "^17.0.14",
         "autoprefixer": "^10.4.4",
         "postcss": "^8.4.12",
         "tailwindcss": "^3.0.23"

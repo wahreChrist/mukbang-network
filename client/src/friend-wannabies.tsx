@@ -71,57 +71,70 @@ export default function FriendsAndWannabees(): JSX.Element {
     return (
         <section className="mx-auto">
             <h1 className="text-center font-semibold my-3">Friends</h1>
-            <div className="flex">
-                {frens.map((fren: WannabeeAndFren, index: number) => (
-                    <div
-                        key={index}
-                        className="mx-2 flex flex-col justify-center"
-                    >
-                        <img
-                            src={fren.profile_pic || "/defaultProfilePic.jpg"}
-                            className="w-[135px] object-cover h-[180px]"
-                            alt="profile_pic"
-                        />
-                        <p className="text-sm text-center">
-                            {fren.first} {fren.last}
-                        </p>
-                        <button
-                            onClick={() => {
-                                handleUnfren(fren.id);
-                            }}
-                            className="text-xs bg-[#e63946] py-1 px-3 mt-2 rounded-full text-white self-center"
+            <div className="flex justify-center">
+                {frens.length != 0 ? (
+                    frens.map((fren: WannabeeAndFren, index: number) => (
+                        <div
+                            key={index}
+                            className="mx-2 flex flex-col justify-center"
                         >
-                            Unfriend
-                        </button>
-                    </div>
-                ))}
+                            <img
+                                src={
+                                    fren.profile_pic || "/defaultProfilePic.jpg"
+                                }
+                                className="w-[135px] object-cover h-[180px]"
+                                alt="profile_pic"
+                            />
+                            <p className="text-sm text-center">
+                                {fren.first} {fren.last}
+                            </p>
+                            <button
+                                onClick={() => {
+                                    handleUnfren(fren.id);
+                                }}
+                                className="text-xs bg-[#e63946] py-1 px-3 mt-2 rounded-full text-white self-center hover:text-[#1d3557] hover:bg-[#A8DADC]"
+                            >
+                                Unfriend
+                            </button>
+                        </div>
+                    ))
+                ) : (
+                    <h3>You dont have any friends yet!</h3>
+                )}
             </div>
 
             <h2 className="text-center font-semibold my-3">Wannabees</h2>
-            <div className="flex">
-                {wannabees.map((wannabee: WannabeeAndFren, index: number) => (
-                    <div
-                        key={index}
-                        className="mx-2 flex flex-col justify-center"
-                    >
-                        <img
-                            src={
-                                wannabee.profile_pic || "/defaultProfilePic.jpg"
-                            }
-                            className="w-[135px] object-cover h-[180px]"
-                            alt="profile_pic"
-                        />
-                        <p className="text-sm text-center">
-                            {wannabee.first} {wannabee.last}
-                        </p>
-                        <button
-                            onClick={() => handleAccept(wannabee.id)}
-                            className="text-xs bg-[#1d3557] py-1 px-2 mt-2 rounded-full text-white"
-                        >
-                            Accept friend request
-                        </button>
-                    </div>
-                ))}
+            <div className="flex justify-center">
+                {wannabees.length != 0 ? (
+                    wannabees.map(
+                        (wannabee: WannabeeAndFren, index: number) => (
+                            <div
+                                key={index}
+                                className="mx-2 flex flex-col justify-center"
+                            >
+                                <img
+                                    src={
+                                        wannabee.profile_pic ||
+                                        "/defaultProfilePic.jpg"
+                                    }
+                                    className="w-[135px] object-cover h-[180px]"
+                                    alt="profile_pic"
+                                />
+                                <p className="text-sm text-center">
+                                    {wannabee.first} {wannabee.last}
+                                </p>
+                                <button
+                                    onClick={() => handleAccept(wannabee.id)}
+                                    className="text-xs bg-[#f1faee] py-1 px-2 mt-2 rounded-full text-[#1d3557] hover:text-white hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/50"
+                                >
+                                    Accept friend request
+                                </button>
+                            </div>
+                        )
+                    )
+                ) : (
+                    <h3>There are no pending friend requests</h3>
+                )}
             </div>
         </section>
     );

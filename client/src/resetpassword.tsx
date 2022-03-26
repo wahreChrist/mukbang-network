@@ -82,28 +82,34 @@ export default class ResetPassword extends Component {
             return (
                 <form>
                     {this.state.error && (
-                        <p style={{ color: "red" }}>
+                        <p className="text-red-600">
                             something went wrong, please try again
                         </p>
                     )}
-                    <p>
-                        enter your e-mail where you will recieve a verification
-                        code:
+                    <p className="mb-4">
+                        Please, enter your e-mail on which you will recieve a
+                        verification code:
                     </p>
                     <input
+                        className="p-1"
                         type="text"
                         name="email"
                         onChange={(e) => this.handleChange(e)}
                         key={1}
                     ></input>
-                    <button onClick={(e) => this.reqCode(e)}>Submit</button>
+                    <button
+                        onClick={(e) => this.reqCode(e)}
+                        className="py-1.5 px-3 bg-[#1d3557] mx-4 text-white rounded-full"
+                    >
+                        Submit
+                    </button>
                 </form>
             );
         } else if (this.state.view == 2) {
             return (
                 <form>
                     {this.state.error && (
-                        <p style={{ color: "red" }}>
+                        <p className="text-red-600">
                             something went wrong, please try again
                         </p>
                     )}
@@ -133,6 +139,10 @@ export default class ResetPassword extends Component {
     }
 
     render() {
-        return <div style={{ padding: "1em" }}>{this.determiner()}</div>;
+        return (
+            <div className="w-[500px] translate-x-[-29%]">
+                {this.determiner()}
+            </div>
+        );
     }
 }

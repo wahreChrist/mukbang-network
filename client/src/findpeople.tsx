@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 type User = {
     id: number;
@@ -36,9 +37,10 @@ export default function FindPeople(): JSX.Element {
     };
 
     return (
-        <div>
-            <h3>Find people</h3>
+        <div className="mx-auto w-1/2">
+            <h2 className="font-bold mb-4">Find people</h2>
             <input
+                className="w-full rounded mb-4 p-1.5 text-stone-900"
                 type={"text"}
                 name="search"
                 placeholder="Enter name"
@@ -46,21 +48,21 @@ export default function FindPeople(): JSX.Element {
             ></input>
 
             {search.length == 0 ? (
-                <p>Check out who just joined!</p>
+                <p className="mb-4">Check out who just joined!</p>
             ) : (
-                <p>Search results:</p>
+                <p className="mb-4">Search results:</p>
             )}
 
             {users.map((user) => (
-                <div key={user.id} className="userElement">
+                <div key={user.id} className="flex p-2 hover:bg-indigo-400">
                     <img
-                        className="userElement--photo"
+                        className="w-14 h-14 object-cover rounded-full"
                         src={user.profile_pic || "/defaultProfilePic.jpg"}
                         alt="photo preview"
                     />
-                    <p className="searchResult">
+                    <Link to={`/api/user/${user.id}`} className="p-4">
                         {user.first} {user.last}
-                    </p>
+                    </Link>
                 </div>
             ))}
         </div>

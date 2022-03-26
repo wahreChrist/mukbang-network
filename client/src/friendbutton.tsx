@@ -81,7 +81,7 @@ export default function FriendButton({
         <>
             <button
                 onClick={() => requestHandler()}
-                className="self-center bg-[#457b9d] text-white rounded py-2 px-4 hover:bg-[#1d3557] shadow-lg shadow-stone-500/40"
+                className="self-center mt-1 bg-[#f1faee] text-[#1d3557] rounded py-1 px-3 hover:text-white hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/50 shadow-lg shadow-stone-500/40"
             >
                 {buttonContext()}
             </button>

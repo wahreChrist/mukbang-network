@@ -47,13 +47,14 @@ export default class Registration extends Component {
 
     render() {
         return (
-            <>
-                <h1>Registration:</h1>
+            <div>
+                <h1 className="font-bold mb-4 text-lg">Registration:</h1>
                 {this.state.error && (
-                    <div style={{ color: "red" }}>There was an error</div>
+                    <div className="text-red-600 ">There was an error</div>
                 )}
-                <form className="regForm">
+                <form className="flex flex-col space-y-4">
                     <input
+                        className="p-1.5"
                         name="first"
                         type="text"
                         placeholder="first"
@@ -61,6 +62,7 @@ export default class Registration extends Component {
                         onChange={(e) => this.handleChange(e)}
                     ></input>
                     <input
+                        className="p-2"
                         name="last"
                         type="text"
                         placeholder="last"
@@ -68,6 +70,7 @@ export default class Registration extends Component {
                         onChange={(e) => this.handleChange(e)}
                     ></input>
                     <input
+                        className="p-2"
                         name="email"
                         type="text"
                         placeholder="email"
@@ -75,18 +78,30 @@ export default class Registration extends Component {
                         onChange={(e) => this.handleChange(e)}
                     ></input>
                     <input
+                        className="p-2"
                         name="password"
-                        type="text"
+                        type="password"
                         placeholder="password"
                         required
                         onChange={(e) => this.handleChange(e)}
                     ></input>
-                    <button onClick={(e) => this.handleSubmit(e)}>
-                        Submit
+                    <button
+                        onClick={(e) => this.handleSubmit(e)}
+                        className="font-bold bg-[#1d3557] text-white p-2 hover:border-2 hover:border-[#1d3557] hover:text-[#1d3557] hover:bg-white"
+                    >
+                        Register
                     </button>
+                    <p className="p-2">
+                        Already a member?{" "}
+                        <Link
+                            to="/login"
+                            className="font-semibold hover:text-red-700"
+                        >
+                            Login
+                        </Link>
+                    </p>
                 </form>
-                <Link to="/login">Already a member? Login</Link>
-            </>
+            </div>
         );
     }
 }
