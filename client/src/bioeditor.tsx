@@ -56,7 +56,7 @@ export default class BioEditor extends Component<Props, State> {
                 {this.state.editMode && (
                     <div className="flex flex-col">
                         <textarea
-                            className="w-full my-2 rounded"
+                            className="w-full my-2 rounded text-[#1d3557] p-2"
                             name="bioDraft"
                             defaultValue={this.props.bio}
                             onChange={(e) => this.handleChange(e)}

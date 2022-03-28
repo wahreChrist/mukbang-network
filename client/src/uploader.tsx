@@ -22,7 +22,7 @@ export default class Uploader extends Component<Props, State> {
         });
     }
 
-    handleSubmit(e: React.SyntheticEvent) {
+    handleSubmit(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         e.preventDefault();
         const data = new FormData();
         data.append("file", this.state.file);
@@ -48,14 +48,14 @@ export default class Uploader extends Component<Props, State> {
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 320 512"
-                            className="h-[20px] cursor-pointer fill-[#1d3557]"
+                            className="h-[20px] cursor-pointer fill-[#1d3557] hover:fill-red-700"
                         >
                             <path d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" />
                         </svg>
                     </div>
                 </div>
 
-                <form className="border-2 border-dotted rounded-md border-[#457B9D] my-4 flex justify-center h-24 items-center ">
+                <form className="border-2 border-dotted rounded-md border-[#457B9D] my-4 flex justify-center h-24 items-center">
                     <input
                         accept="image/*"
                         type="file"
@@ -81,7 +81,7 @@ export default class Uploader extends Component<Props, State> {
                 </form>
                 <button
                     className="text-sm text-white bg-[#1d3557] rounded py-1.5 px-3  hover:bg-indigo-500"
-                    onSubmit={(e) => this.handleSubmit(e)}
+                    onClick={(e) => this.handleSubmit(e)}
                 >
                     UPLOAD FILE
                 </button>

@@ -53,7 +53,7 @@ const uploader = multer({
 });
 
 app.post("/profile-pic", uploader.single("file"), s3.upload, (req, res) => {
-    // console.log("file object:", req.file);
+    console.log("file object:", req.file);
     db.updatePic(
         req.session.sessId,
         `https://s3.amazonaws.com/khorneworldeaters/${req.file.filename}`
