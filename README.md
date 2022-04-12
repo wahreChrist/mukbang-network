@@ -16,6 +16,6 @@ Social-network like project written on React+Typescript, styled with TailwindCSS
 ![react](https://img.shields.io/static/v1?style=flat-square&label=+&logo=react&message=React&color=white) 
 ![tailwind](https://img.shields.io/static/v1?style=flat-square&label=+&logo=tailwindcss&message=Tailwind&color=white) 
 ![redux](https://img.shields.io/static/v1?style=flat-square&label=+&logo=redux&message=Redux&color=blueviolet) 
-![typescript](https://img.shields.io/static/v1?style=flat-square&label=+&logo=typescript&message=Typescript&color=E1E1E1) 
+![typescript](https://img.shields.io/static/v1?style=flat-square&label=+&logo=typescript&message=Typescript&color=white) 
 ![postgresql](https://img.shields.io/static/v1?style=flat-square&label=+&logo=postgresql&logoColor=white&message=Postgresql&color=blue) 
 ![node](https://img.shields.io/static/v1?style=flat-square&label=+&logo=nodedotjs&message=NodeJS&color=E1E1E1) 
